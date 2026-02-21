@@ -12,14 +12,15 @@ def cat_matrices2D(mat1, mat2, axis=0):
         if any(not isinstance(row, list) for row in mat):
             return False
         row_len = len(mat[0])
-        if row_len == 0:
-            return False
+        # allow zero-length rows (0 columns); ensure all rows have same length
         for row in mat:
             if len(row) != row_len:
                 return False
-            for el in row:
-                if not isinstance(el, (int, float)):
-                    return False
+            # only check element types when there are columns
+            if row_len > 0:
+                for el in row:
+                    if not isinstance(el, (int, float)):
+                        return False
         return True
 
     if not _is_valid_matrix(mat1) or not _is_valid_matrix(mat2):

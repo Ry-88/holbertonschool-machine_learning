@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
 
-cat_matrices2D = __import__('7-gettin_cozy').cat_matrices2D
+matrix_shape = __import__('2-size_me_please').matrix_shape
 
 mat1 = [[1, 2], [3, 4]]
-mat2 = [[5, 6]]
-mat3 = [[7], [8]]
-mat4 = cat_matrices2D(mat1, mat2)
-mat5 = cat_matrices2D(mat1, mat3, axis=1)
-print(mat4)
-print(mat5)
-mat1[0] = [9, 10]
-mat1[1].append(5)
-print(mat1)
-print(mat4)
-print(mat5)
+print(matrix_shape(mat1))
+mat2 = [[[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15]],
+        [[16, 17, 18, 19, 20], [21, 22, 23, 24, 25], [26, 27, 28, 29, 30]]]
+print(matrix_shape(mat2))
