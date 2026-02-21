@@ -3,10 +3,9 @@
 the shape of a numpy.ndarray"""
 
 
-import numpy as np
-
 def np_shape(matrix):
     """Calculates the shape of a numpy.ndarray"""
-    if type(matrix) is not np.ndarray:
+    # Check if it has shape attribute (duck typing for numpy arrays)
+    if not hasattr(matrix, 'shape'):
         return None
     return list(matrix.shape)
