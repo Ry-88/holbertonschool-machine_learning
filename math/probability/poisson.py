@@ -1,4 +1,10 @@
+#!/usr/bin/env python3
+"""Create a class Poisson that represents
+a Poisson distribution.
+"""
+
 import math
+
 
 class Poisson:
     """
@@ -35,14 +41,14 @@ class Poisson:
             # Case when data is not provided: use lambtha directly
             if lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
-            self.lambtha = float(lambtha)  # Ensure lambtha is a float
+            self.lambtha = float(lambtha)
         else:
             # Case when data is provided: estimate lambtha from data
             if not isinstance(data, list):
                 raise TypeError("data must be a list")
-            
+
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
-            
+
             # Calculate lambtha as the mean of the data
             self.lambtha = float(sum(data) / len(data))
