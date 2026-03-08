@@ -54,9 +54,7 @@ class Normal:
 
         z = (x - self.mean) / (self.stddev * (2 ** 0.5))
 
-        erf = (1 - (1 / (1 + 0.5 * abs(z))) * (2.7182818285 ** (-z ** 2 - 1.26551223)))
+        erf = (2 / (pi ** 0.5)) * (z - (z ** 3) / 3 + (z ** 5) / 10 -
+                                  (z ** 7) / 42 + (z ** 9) / 216)
 
-        if z >= 0:
-            return 0.5 * (1 + erf)
-        else:
-            return 0.5 * (1 - erf)
+        return 0.5 * (1 + erf)
