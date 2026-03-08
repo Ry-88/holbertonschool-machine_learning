@@ -6,17 +6,7 @@ class Poisson:
     """Represents a Poisson distribution."""
 
     def __init__(self, data=None, lambtha=1.0):
-        """Initialize a Poisson distribution.
-
-        Args:
-            data (list): List of data to estimate lambtha.
-            lambtha (float): Expected number of occurrences.
-
-        Raises:
-            TypeError: If data is not a list.
-            ValueError: If data has less than two values.
-            ValueError: If lambtha is not positive.
-        """
+        """Initialize a Poisson distribution."""
         if data is None:
             if lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
@@ -31,22 +21,16 @@ class Poisson:
             self.lambtha = float(sum(data) / len(data))
 
     def pmf(self, k):
-        """Calculates the value of the PMF for a given number of successes.
-
-        Args:
-            k (int or float): Number of successes.
-
-        Returns:
-            float: PMF value for k.
-        """
-        # Convert k to integer
+        """Calculates the value of the PMF for a given number of successes."""
         k = int(k)
 
-        # If k is negative, PMF is 0
         if k < 0:
             return 0
 
-        # PMF formula: P(X=k) = (e^-lambtha * lambtha^k) / k!
-        # Using math.exp and math.factorial
-        from math import exp, factorial
-        return (exp(-self.lambtha) * self.lambtha**k) / factorial(k)
+        e = 2.7182818285
+
+        factorial = 1
+        for i in range(1, k + 1):
+            factorial *= i
+
+        return (e ** (-self.lambtha) * self.lambtha ** k) / factorial
