@@ -1,19 +1,33 @@
 #!/usr/bin/env python3
-"""Create a class Exponential that
-represents an exponential distribution"""
+"""Module that defines an Exponential distribution."""
 
 
-def __init__(self, data=None, lambtha=1.):
-    """Initialize a Exponential distribution."""
-    if data is None:
-        if lambtha <= 0:
-            raise ValueError("lambtha must be a positive value")
-        self.lambtha = float(lambtha)
-    else:
-        if not isinstance(data, list):
-            raise TypeError("data must be a list")
+class Exponential:
+    """Represents an exponential distribution."""
 
-        if len(data) < 2:
-            raise ValueError("data must contain multiple values")
+    def __init__(self, data=None, lambtha=1.):
+        """Initialize an Exponential distribution.
 
-        self.lambtha = float(1 / (sum(data) / len(data)))
+        Args:
+            data (list): List of data to estimate lambtha
+            lambtha (float): Expected number of occurrences
+
+        Raises:
+            TypeError: If data is not a list
+            ValueError: If data has fewer than two values
+            ValueError: If lambtha is not positive
+        """
+        if data is None:
+            if lambtha <= 0:
+                raise ValueError("lambtha must be a positive value")
+            self.lambtha = float(lambtha)
+
+        else:
+            if not isinstance(data, list):
+                raise TypeError("data must be a list")
+
+            if len(data) < 2:
+                raise ValueError("data must contain multiple values")
+
+            mean = sum(data) / len(data)
+            self.lambtha = float(1 / mean)
