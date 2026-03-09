@@ -31,3 +31,7 @@ class Binomial:
 
             self.n = round((mean * (1 - mean / variance)))
             self.p = mean / self.n
+
+    def __str__(self):
+        """String representation of Binomial distribution"""
+        return f"{self.n} {self.p}"
