@@ -13,8 +13,8 @@ class Binomial:
             if p <= 0 or p >= 1:
                 raise ValueError('p must be grater than 0 and less than 1')
 
-            self.n = n
-            self.p = p
+            self.n = int(n)
+            self.p = float(p)
         else:
             if not isinstance(data, list):
                 raise TypeError('data must be a list')
@@ -29,9 +29,11 @@ class Binomial:
 
             variance /= len(data)
 
-            self.n = round((mean * (1 - mean / variance)))
-            self.p = mean / self.n
+            p = 1 - (variance / mean)
 
-    def __str__(self):
-        """String representation of Binomial distribution"""
-        return f"{self.n} {self.p}"
+            n = round(mean / p)
+
+            p = mean / n
+
+            self.n = int(n)
+            self.p = float(p)
