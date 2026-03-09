@@ -26,7 +26,8 @@ class Binomial:
 
             for x in data:
                 variance += (x - mean) ** 2
-                variance /= len(data)
+
+            variance /= len(data)
 
             self.n = round((mean * (1 - mean / variance)))
             self.p = mean / self.n
