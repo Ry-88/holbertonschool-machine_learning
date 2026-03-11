@@ -1,48 +1,55 @@
-import math
+#!/usr/bin/env python3
+"""Module that defines a Poisson distribution."""
+
 
 class Poisson:
-    """
-    Represents a Poisson distribution.
-
-    Attributes:
-    -----------
-    lambtha : float
-        The expected number of occurrences in a given time frame.
-    """
+    """Represents a Poisson distribution."""
 
     def __init__(self, data=None, lambtha=1.0):
-        """
-        Initialize a Poisson distribution instance.
-
-        Parameters:
-        -----------
-        data : list, optional
-            A list of data to estimate the distribution's lambtha.
-            If provided, lambtha is calculated as the mean of the data.
-        lambtha : float, optional
-            The expected number of occurrences (default is 1.0).
-            Used only if data is None.
-
-        Raises:
-        -------
-        TypeError:
-            If data is not a list.
-        ValueError:
-            If lambtha <= 0.
-            If data contains fewer than 2 values.
-        """
+        """Initialize a Poisson distribution."""
         if data is None:
-            # Case when data is not provided: use lambtha directly
             if lambtha <= 0:
                 raise ValueError("lambtha must be a positive value")
-            self.lambtha = float(lambtha)  # Ensure lambtha is a float
+            self.lambtha = float(lambtha)
         else:
-            # Case when data is provided: estimate lambtha from data
             if not isinstance(data, list):
                 raise TypeError("data must be a list")
-            
+
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
-            
-            # Calculate lambtha as the mean of the data
+
             self.lambtha = float(sum(data) / len(data))
+
+    def pmf(self, k):
+        """Calculates the value of the PMF for a given number of successes."""
+        k = int(k)
+
+        if k < 0:
+            return 0
+
+        e = 2.7182818285
+
+        factorial = 1
+        for i in range(1, k + 1):
+            factorial *= i
+
+        return (e ** (-self.lambtha) * self.lambtha ** k) / factorial
+
+    def cdf(self, k):
+        """Calculates the value of the CDF for a given number of successes"""
+        k = int(k)
+
+        if k < 0:
+            return 0
+
+        e = 2.7182818285
+        factorial = 1
+        cdf = 0
+
+        for i in range(0, k + 1):
+            if i > 0:
+                factorial *= i
+                cdf += (e ** (-self.lambtha) * self.lambtha ** i) / factorial
+            else:
+                cdf += e ** (-self.lambtha)
+        return cdf
