@@ -8,22 +8,22 @@ import pandas as pd
 
 def rename(df):
     """
-    Rename the Timestamp column to Datetime, convert it to datetime
-    format, and return only the Datetime and Close columns.
+    Rename Timestamp column to Datetime, convert it to datetime,
+    and keep only Datetime and Close columns.
 
     Args:
-        df (pd.DataFrame): DataFrame containing a column named Timestamp.
+        df (pd.DataFrame): DataFrame containing a Timestamp column.
 
     Returns:
-        pd.DataFrame: Modified DataFrame with Datetime and Close columns.
+        pd.DataFrame: Modified DataFrame.
     """
-    # Rename the column
+    # Rename column
     df = df.rename(columns={"Timestamp": "Datetime"})
 
-    # Convert the column to datetime
-    df["Datetime"] = pd.to_datetime(df["Datetime"])
+    # Convert timestamp (seconds) to datetime
+    df["Datetime"] = pd.to_datetime(df["Datetime"], unit='s')
 
-    # Keep only Datetime and Close columns
+    # Keep only required columns
     df = df[["Datetime", "Close"]]
 
     return df
