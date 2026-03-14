@@ -18,7 +18,7 @@ def scatter():
 
     The data is generated from a multivariate normal distribution
     and adjusted to simulate realistic weights.
-    
+
     Args:
         None
 
