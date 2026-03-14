@@ -4,6 +4,9 @@ Module that concatenates two DataFrames (bitstamp and coinbase)
 with Timestamp as index and labeled keys.
 """
 
+import pandas as pd
+index = __import__('10-index').index
+
 
 def concat(df1, df2):
     """
@@ -17,9 +20,6 @@ def concat(df1, df2):
     Returns:
         pd.DataFrame: Concatenated DataFrame with keys.
     """
-    # Import index function from 10-index.py
-    index = __import__('10-index').index
-
     # Set Timestamp as index for both DataFrames
     df1_indexed = index(df1)
     df2_indexed = index(df2)
@@ -28,7 +28,7 @@ def concat(df1, df2):
     df2_selected = df2_indexed[df2_indexed.index <= 1417411920]
 
     # Concatenate df2 on top of df1 with keys
-    concatenated = __import__('pandas').concat(
+    concatenated = pd.concat(
         [df2_selected, df1_indexed], keys=['bitstamp', 'coinbase']
     )
 
