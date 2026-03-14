@@ -4,8 +4,6 @@ Module that computes descriptive statistics for a DataFrame
 excluding the Timestamp column.
 """
 
-import pandas as pd
-
 
 def analyze(df):
     """
