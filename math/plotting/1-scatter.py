@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def scatter():
     """
     Plot a scatter graph of men's height vs weight.
