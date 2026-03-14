@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def line():
     x = np.arange(0, 11)        # x من 0 إلى 10
     y = x ** 3                   # y مكعب x
