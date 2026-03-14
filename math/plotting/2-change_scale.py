@@ -33,7 +33,7 @@ def change_scale():
         None
     """
     # Build a dense array of time points for a smooth continuous curve.
-    x = np.linspace(0, 28650, 2000)
+    x = np.arange(0, 28651, 5730)
 
     # Decay constant: ln(0.5) ensures the fraction halves every t_half years.
     r = np.log(0.5)
