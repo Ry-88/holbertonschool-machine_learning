@@ -22,8 +22,8 @@ def get_first_launch():
     rocket_id = first_launch["rocket"]
     launchpad_id = first_launch["launchpad"]
 
-    local_date = datetime.fromtimestamp(date_unix).astimezone().isoformat()
-
+    local_date = (datetime.fromtimestamp(date_unix)
+                  .strftime("%Y-%m-%dT%H:%M:%S%z"))
 
     rocket_url = "https://api.spacexdata.com/v4/rockets/{}".format(
         rocket_id
