@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Module to display the first SpaceX launch using the SpaceX API."""
 import requests
-from datetime import datetime
 
 
 def get_first_launch():
@@ -22,8 +21,7 @@ def get_first_launch():
     rocket_id = first_launch["rocket"]
     launchpad_id = first_launch["launchpad"]
 
-    local_date = (datetime.fromtimestamp(date_unix)
-                  .strftime("%Y-%m-%dT%H:%M:%S%z"))
+    local_date = first_launch.get("date_local")
 
     rocket_url = "https://api.spacexdata.com/v4/rockets/{}".format(
         rocket_id
