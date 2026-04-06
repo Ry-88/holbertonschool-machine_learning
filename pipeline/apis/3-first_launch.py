@@ -11,7 +11,7 @@ def get_first_launch():
     (ascending), and prints the earliest launch in the format:
     <launch name> (<date>) <rocket name> - <launchpad name> (<locality>)
     """
-    url = "https://api.spacexdata.com/v4/launches"
+    url = "https://api.spacexdata.com/v4/launches/upcoming"
     response = requests.get(url)
     launches = response.json()
 
