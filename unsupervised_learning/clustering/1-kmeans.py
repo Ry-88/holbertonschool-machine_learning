@@ -57,7 +57,7 @@ def kmeans(X, k, iterations=1000):
             else:
                 C[j] = np.mean(cluster_points, axis=0)
 
-        # Check for convergence: no change in centroids between iterations
+        # Check for convergence: no change in centroids between iterations.
         if np.all(C_copy == C):
             break
 
