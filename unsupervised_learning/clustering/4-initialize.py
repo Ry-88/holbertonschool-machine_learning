@@ -14,31 +14,33 @@ def initialize(X, k):
     X (numpy.ndarray): shape (n, d) containing the dataset
         n is the number of data points
         d is the number of dimensions for each data point
-    k (int): number of clusters (Gaussian components)
+    k (int): number of Gaussian components (clusters)
 
     Returns:
     tuple:
         pi (numpy.ndarray): shape (k,) containing the priors
             for each cluster
-        m (numpy.ndarray): shape (k, d) containing the centroid
-            means for each cluster
-        S (numpy.ndarray): shape (k, d, d) containing the covariance
-            matrices for each cluster
+        m (numpy.ndarray): shape (k, d) containing the means
+            of each cluster
+        S (numpy.ndarray): shape (k, d, d) containing the
+            covariance matrices for each cluster
     Returns (None, None, None) on failure
     """
-    # --------- Validation ----------
+    # --------- Input validation ----------
     if not isinstance(X, np.ndarray) or X.ndim != 2:
         return None, None, None
+
     if not isinstance(k, int) or k <= 0:
         return None, None, None
 
     n, d = X.shape
+
     if k > n:
         return None, None, None
 
     # --------- Initialize priors ----------
-    # Equal probability for each cluster
-    pi = np.full(k, 1 / k)
+    # Equal probability for each component
+    pi = np.full((k,), 1 / k)
 
     # --------- Initialize means using K-means ----------
     m, _ = kmeans(X, k)
@@ -46,7 +48,7 @@ def initialize(X, k):
         return None, None, None
 
     # --------- Initialize covariance matrices ----------
-    # Identity matrix for each cluster (shape: k, d, d)
+    # Identity matrix for each component
     S = np.tile(np.eye(d), (k, 1, 1))
 
     return pi, m, S
