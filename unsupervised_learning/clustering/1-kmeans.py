@@ -1,86 +1,64 @@
 #!/usr/bin/env python3
-"""Module for performing K-means clustering"""
-
+"""
+Module for performing K-means clustering.
+"""
 import numpy as np
-
-
-def initialize(X, k):
-    """
-    Initializes cluster centroids for K-means
-
-    Parameters:
-    X (numpy.ndarray): shape (n, d) dataset
-    k (int): number of clusters
-
-    Returns:
-    numpy.ndarray of shape (k, d) or None
-    """
-    if not isinstance(X, np.ndarray) or X.ndim != 2:
-        return None
-    if not isinstance(k, int) or k <= 0:
-        return None
-
-    n, d = X.shape
-    if k > n:
-        return None
-
-    min_vals = np.min(X, axis=0)
-    max_vals = np.max(X, axis=0)
-
-    return np.random.uniform(min_vals, max_vals, (k, d))
 
 
 def kmeans(X, k, iterations=1000):
     """
-    Performs K-means clustering
+    Performs K-means clustering on a dataset.
 
-    Parameters:
-    X (numpy.ndarray): shape (n, d) dataset
-    k (int): number of clusters
-    iterations (int): max number of iterations
+    Args:
+        X (numpy.ndarray): Array of shape (n, d) containing the dataset.
+        k (int): Positive integer containing the number of clusters.
+        iterations (int): Positive integer containing the max iterations.
 
     Returns:
-    C, clss or None, None on failure
-    C: centroid means (k, d)
-    clss: cluster indices (n,)
+        C (numpy.ndarray): Shape (k, d) containing the centroid means,
+                           or None on failure.
+        clss (numpy.ndarray): Shape (n,) containing the index of the cluster
+                              that each data point belongs to, or None on fail.
     """
-    if (not isinstance(X, np.ndarray) or X.ndim != 2 or
-            not isinstance(k, int) or k <= 0 or
-            not isinstance(iterations, int) or iterations <= 0):
+    if not isinstance(X, np.ndarray) or X.ndim != 2:
+        return None, None
+    if type(k) is not int or k <= 0:
+        return None, None
+    if type(iterations) is not int or iterations <= 0:
         return None, None
 
-    n, d = X.shape
-    if k > n:
-        return None, None
+    # Get bounds for initialization
+    low = np.min(X, axis=0)
+    high = np.max(X, axis=0)
 
-    C = initialize(X, k)
-    if C is None:
-        return None, None
+    # 1. Initialize the cluster centroids using multivariate uniform distribution
+    C = np.random.uniform(low, high, size=(k, X.shape[1]))
 
-    for _ in range(iterations):  # loop 1
-        # Compute distances (vectorized)
-        distances = np.sum((X[:, None] - C) ** 2, axis=2)
+    # Loop 1: Iterations over the dataset
+    for _ in range(iterations):
+        C_copy = np.copy(C)
 
-        # Assign clusters
+        # Calculate distances from each point to each centroid using broadcasting
+        # X[:, np.newaxis] broadcasts to (n, 1, d) and C broadcasts to (k, d)
+        # Resulting differences are (n, k, d), taking the norm across axis 2 yields (n, k)
+        distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
+        
+        # Get cluster assignments based on minimum distance
         clss = np.argmin(distances, axis=1)
 
-        new_C = np.copy(C)
-
-        for i in range(k):  # loop 2
-            points = X[clss == i]
-
-            if points.size == 0:
-                # Reinitialize centroid (second uniform call)
-                min_vals = np.min(X, axis=0)
-                max_vals = np.max(X, axis=0)
-                new_C[i] = np.random.uniform(min_vals, max_vals)
+        # Loop 2: Update centroids based on assigned points
+        for j in range(k):
+            cluster_points = X[clss == j]
+            
+            # Reinitialize empty clusters
+            if cluster_points.shape[0] == 0:
+                # 2. Second exact use of numpy.random.uniform
+                C[j] = np.random.uniform(low, high, size=(1, X.shape[1]))
             else:
-                new_C[i] = np.mean(points, axis=0)
+                C[j] = np.mean(cluster_points, axis=0)
 
-        # Check convergence
-        if np.allclose(C, new_C):
-            return C, clss
-
-        C = new_C
+        # Check for convergence: no change in centroids between iterations
+        if np.all(C_copy == C):
+            break
 
     return C, clss
