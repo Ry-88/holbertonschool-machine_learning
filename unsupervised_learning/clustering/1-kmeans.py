@@ -59,7 +59,7 @@ def kmeans(X, k, iterations=1000):
 
     for _ in range(iterations):  # loop 1
         # Compute distances (vectorized)
-        distances = np.linalg.norm(X[:, None] - C, axis=2)
+        distances = np.sum((X[:, None] - C) ** 2, axis=2)
 
         # Assign clusters
         clss = np.argmin(distances, axis=1)
